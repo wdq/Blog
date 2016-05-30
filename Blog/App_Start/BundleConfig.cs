@@ -11,7 +11,9 @@ namespace Blog
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/knockout-3.4.0.js",
-                        "~/Scripts/knockout.mapping-latest.js"));
+                        "~/Scripts/knockout.mapping-latest.js",
+                        "~/Scripts/DataTables/jquery.dataTables.js",
+                        "~/Scripts/DataTables/dataTables.bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -27,7 +29,10 @@ namespace Blog
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/DataTables/css/jquery.dataTables.css",
+                      "~/Content/DataTables/css/dataTables.bootstrap.css",
+                      "~/css/font-awesome.css"));
         }
     }
 }

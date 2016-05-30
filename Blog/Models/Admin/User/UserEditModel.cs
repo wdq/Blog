@@ -19,7 +19,7 @@ namespace Blog.Models.Admin.User
         public string Website { get; set; }
         public string Biography { get; set; }
         public Guid? ProfilePicture { get; set; }
-        public string Password { get; set; }
+        public string Password { get; set; } // todo: Actually secured passwords, not just plain text strings.
         public string AddOrEdit { get; set; }
 
         public UserEditModel()

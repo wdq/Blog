@@ -12,7 +12,7 @@ namespace Blog.Controllers.Admin.User
         // GET: UserAdmin
         public ActionResult Index()
         {
-            return View();
+            return View(UserIndexModel.UserIndex());
         }
 
         public ActionResult Edit(string id)
