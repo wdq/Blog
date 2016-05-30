@@ -22,3 +22,42 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*DataTable bootstrap override*/ 
+/* Otherwise the search and per page used a bold font set by bootstrap */
+.dataTables_length label {
+font-weight: 200;
+}
+/* All jacked up by base dataTables CSS, pagination buttons way spread out */
+div.dataTables_paginate ul.pagination li.paginate_button {
+margin: 0px;
+padding: 0px;
+border: 0px;
+white-space: nowrap;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+border: 0px;
+background-image: none;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+border: 0px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+border: 0px;
+}
+.dataTables_wrapper label {
+font-weight: 200;
+margin: 0px;
+}
+.dataTables_filter input[type=search]
+{
+    width: auto;
+}
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc:after
+{
+    content: none;
+}
+table.dataTable thead th, table.dataTable thead td, table.dataTable.no-footer
+{
+    border-bottom: 1px solid #afafaf;
+}
