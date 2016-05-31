@@ -15,6 +15,7 @@
     };
 
     self.save = function () {
+        self.Body = CKEDITOR.instances.Body.getData();
         $.ajax({
             url: "EditPost",
             type: "POST",
@@ -36,3 +37,7 @@ $(function () {
     window.viewModel = new ViewModel(initialModel);
     ko.applyBindings(window.viewModel);
 })
+
+$(document).ready(function () {
+    CKEDITOR.replace('Body');
+});

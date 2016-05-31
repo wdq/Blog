@@ -16,12 +16,6 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
 
 /*DataTable bootstrap override*/ 
 /* Otherwise the search and per page used a bold font set by bootstrap */
@@ -60,4 +54,9 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_desc:after,
 table.dataTable thead th, table.dataTable thead td, table.dataTable.no-footer
 {
     border-bottom: 1px solid #afafaf;
+}
+
+.FullWidthTextInput {
+    display: block;
+    width: 100%;
 }
