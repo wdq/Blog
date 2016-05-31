@@ -12,7 +12,7 @@ namespace Blog.Controllers.Admin.Post
         // GET: PostAdmin
         public ActionResult Index()
         {
-            return View();
+            return View(PostIndexModel.PostIndex());
         }
 
         public ActionResult Edit(string id)
