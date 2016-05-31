@@ -25,7 +25,7 @@
                     console.log(data);
                     window.location.href = "Edit?id=" + data;
                 } else {
-                    alert("Error saving user.");
+                    alert("Error saving post.");
                 }
             }
         });

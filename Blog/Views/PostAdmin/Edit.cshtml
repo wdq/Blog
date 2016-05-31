@@ -1,0 +1,73 @@
+﻿@model Blog.Models.Admin.Post.PostEditModel
+
+@{
+    ViewBag.Title = Model.AddOrEdit + " Post";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-md-10 col-md-offset-1">
+            <h2>@Model.AddOrEdit Post</h2>
+            <br />
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-md-4 col-md-offset-1">
+            <form id="Form" action="edit" method="post">
+                <table id="PostEditTable" class="table table-striped entryTable">
+                    <tbody>
+                        <tr>
+                            <td><b>Title:</b></td>
+                            <td><input type="text" class="form-control" value="@Model.Title" data-bind="value: Title" /></td>
+                        </tr>
+                        <tr>
+                            <td><b>Body:</b></td>
+                            <td><input type="text" class="form-control" value="@Model.Body" data-bind="value: Body" /></td>
+                        </tr>
+                        <tr>
+                            <td><b>Author:</b></td>
+                            <td><input type="text" class="form-control" value="@Model.Author" data-bind="value: Author" /></td>
+                        </tr>
+                        <tr>
+                            <td><b>Timestamp:</b></td>
+                            <td><input type="text" class="form-control" value="@Model.Timestamp" data-bind="value: Timestamp" /></td>
+                        </tr>
+                        <tr>
+                            <td><b>Comments Enabled:</b></td>
+                            <td><input type="text" class="form-control" value="@Model.CommentsEnabled" data-bind="value: CommentsEnabled" /></td>
+                        </tr>
+                        <tr>
+                            <td><b>Status:</b></td>
+                            <td><input type="text" class="form-control" value="@Model.Status" data-bind="value: Status" /></td>
+                        </tr>
+                        <tr>
+                            <td><b>Visibility:</b></td>
+                            <td><input type="text" class="form-control" value="@Model.Visibility" data-bind="value: Visibility" /></td>
+                        </tr>
+                        <tr>
+                            <td><b>Featured Image:</b></td>
+                            <td><input type="text" class="form-control" value="@Model.FeaturedImage" data-bind="value: FeaturedImage" /></td>
+                        </tr>
+                        <tr>
+                            <td><b>Slug:</b></td>
+                            <td><input type="text" class="form-control" value="@Model.Slug" data-bind="value: Slug" /></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 30px">
+                                <button type="button" data-bind="click: save" class="btn btn-success btn-md"><i class="fa fa-floppy-o"></i> Save</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var initialModel = @Html.Raw(Json.Encode(Model));
+    $(document).ready(function(){
+    });
+</script>
+<script type="text/javascript" src="@Url.Content("~/Content/PostAdmin/PostEdit.js")"></script>

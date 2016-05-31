@@ -174,6 +174,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Admin\Post\PostEditModel.cs" />
     <Compile Include="Models\Admin\User\UserEditModel.cs" />
     <Compile Include="Models\Admin\User\UserIndexModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -288,6 +289,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\PostAdmin\PostEdit.js" />
     <Content Include="Content\UserAdmin\UserEdit.js" />
     <Content Include="css\font-awesome.css" />
     <Content Include="css\font-awesome.min.css" />
@@ -411,17 +413,16 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\UserAdmin\Edit.cshtml" />
     <Content Include="Views\UserAdmin\Index.cshtml" />
+    <Content Include="Views\PostAdmin\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Admin\Post\" />
     <Folder Include="Models\Media\" />
     <Folder Include="Models\Page\" />
     <Folder Include="Models\Post\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Media\" />
     <Folder Include="Views\Page\" />
-    <Folder Include="Views\PostAdmin\" />
     <Folder Include="Views\Post\" />
   </ItemGroup>
   <ItemGroup>
