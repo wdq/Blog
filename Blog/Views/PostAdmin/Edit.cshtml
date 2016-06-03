@@ -35,19 +35,45 @@
                 <div class="col-md-3">
                     <div class="row">
                         <div class="col-md-3">Status:</div>
-                        <div class="col-md-9"><input type="text" class="form-control" value="@Model.Status" data-bind="value: Status"/>
+                        <div class="col-md-9">
+                            <select data-parsley-trigger="change" required="" class="form-control" data-bind="value: Status" value="@Model.Status">
+                                @foreach (var possibleStatus in Model.PossibleStatuses)
+                                {
+                                    if (Model.Status == possibleStatus)
+                                    {
+                                        <option selected value="@possibleStatus">@possibleStatus</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@possibleStatus">@possibleStatus</option>
+                                    }
+                                }
+                            </select>
                         </div>
                     </div>
                     <br/>
                     <div class="row">
                         <div class="col-md-3">Visibility:</div>
-                        <div class="col-md-9"><input type="text" class="form-control" value="@Model.Visibility" data-bind="value: Visibility"/>
+                        <div class="col-md-9">
+                            <select data-parsley-trigger="change" required="" class="form-control" data-bind="value: Visibility" value="@Model.Visibility">
+                                @foreach (var possibleVisibility in Model.PossibleVisibilities)
+                                {
+                                    if (Model.Visibility == possibleVisibility)
+                                    {
+                                        <option selected value="@possibleVisibility">@possibleVisibility</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@possibleVisibility">@possibleVisibility</option>
+                                    }
+                                }
+                            </select>
                         </div>
                     </div>
                     <br/>
                     <div class="row">
                         <div class="col-md-3">Timestamp:</div>
-                        <div class="col-md-9"><input type="text" class="form-control" value="@Model.Timestamp" data-bind="value: Timestamp"/>
+                        <div class="col-md-9"><input type="text" id='datetimepicker4' class="form-control" value="@Model.Timestamp" data-bind="value: Timestamp"/>
                         </div>
                     </div>
                     <br/>
@@ -79,6 +105,7 @@
 <script type="text/javascript">
     var initialModel = @Html.Raw(Json.Encode(Model));
     $(document).ready(function(){
+        $('#datetimepicker4').datetimepicker();
     });
 </script>
 <script type="text/javascript" src="@Url.Content("~/Content/PostAdmin/PostEdit.js")"></script>

@@ -14,6 +14,8 @@ namespace Blog
                         "~/Scripts/knockout.mapping-latest.js",
                         "~/Scripts/DataTables/jquery.dataTables.js",
                         "~/Scripts/DataTables/dataTables.bootstrap.js",
+                        "~/Scripts/moment-2.13.0/min/moment.min.js",
+                        "~/Scripts/bootstrap-datetimepicker-4.17.37/build/js/bootstrap-datetimepicker.min.js",
                         "~/Scripts/ckeditor/ckeditor.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -30,6 +32,7 @@ namespace Blog
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Scripts/bootstrap-datetimepicker-4.17.37/build/css/bootstrap-datetimepicker.css",
                       "~/Content/site.css",
                       "~/Content/DataTables/css/jquery.dataTables.css",
                       "~/Content/DataTables/css/dataTables.bootstrap.css",

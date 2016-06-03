@@ -16,6 +16,7 @@
 
     self.save = function () {
         self.Body = CKEDITOR.instances.Body.getData();
+        window.viewModel.Timestamp($('#datetimepicker4').val());
         $.ajax({
             url: "EditPost",
             type: "POST",

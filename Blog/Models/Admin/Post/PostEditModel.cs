@@ -19,6 +19,9 @@ namespace Blog.Models.Admin.Post
         public Guid? FeaturedImage { get; set; }
         public string Slug { get; set; }
         public string AddOrEdit { get; set; }
+        public List<string> PossibleStatuses { get; set; }
+        public List<string> PossibleVisibilities { get; set; }
+
 
         public PostEditModel()
         {
@@ -38,6 +41,20 @@ namespace Blog.Models.Admin.Post
             FeaturedImage = post.FeaturedImage;
             Slug = post.Slug;
             AddOrEdit = addOrEdit;
+
+            List<string> possibleStatusesTemp = new List<string>();
+            possibleStatusesTemp.Add("Draft");
+            possibleStatusesTemp.Add("Pending Review");
+            possibleStatusesTemp.Add("Published");
+            PossibleStatuses = possibleStatusesTemp;
+
+            List<string> possibleVisibilitiesTemp = new List<string>();
+            possibleVisibilitiesTemp.Add("Public");
+            possibleVisibilitiesTemp.Add("Public Stickied");
+            possibleVisibilitiesTemp.Add("Password Protected");
+            possibleVisibilitiesTemp.Add("Private");
+            PossibleVisibilities = possibleVisibilitiesTemp;
+
         }
 
         public static PostEditModel PostEdit(string id)
@@ -46,7 +63,9 @@ namespace Blog.Models.Admin.Post
 
             if (id.IsNullOrWhiteSpace())
             {
-                PostEditModel model = new PostEditModel(new Blog.Post(), "Add");
+                Blog.Post post = new Blog.Post();
+                post.Timestamp = DateTime.Now;
+                PostEditModel model = new PostEditModel(post, "Add");
                 return model;
             }
             else
