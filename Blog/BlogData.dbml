@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Blog" Class="BlogDataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=IIS\SQLEXPRESS;Initial Catalog=Blog;Integrated Security=True;Encrypt=False;TrustServerCertificate=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="BlogConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=LOCALHOST;Initial Catalog=Blog;Integrated Security=True;Encrypt=False;TrustServerCertificate=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="BlogConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Media" Member="Medias">
     <Type Name="Media">
       <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
