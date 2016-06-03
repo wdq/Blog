@@ -28,5 +28,13 @@ namespace Blog.Controllers.Admin.Post
 
             return jsonResult;
         }
+
+        [HttpPost]
+        public ActionResult DeletePostPost(string id)
+        {
+            JsonResult result = new JsonResult();
+            result.Data = PostEditModel.DeletePost(id);
+            return result;
+        }
     }
 }

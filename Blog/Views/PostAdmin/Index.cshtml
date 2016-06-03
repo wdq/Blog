@@ -64,12 +64,14 @@
                     data: "Id",
                     sortable: false,
                     render: function (data, type, full, meta) {
-                        var commandButtonLeftHtml = "<a href='PostAdmin/Edit?id=" + data + "' class='btn btn-default hl-view' style='margin-right: 3px;'><i class='fa fa-pencil'></i></span></a>";
-                        //commandButtonLeftHtml += "<a class='btn btn-default hl-view' data-toggle='modal' data-id='" + data + "' data-target='#deleteConfirmationModal'><i class='fa fa-trash'></i></span></a>";
+                        var commandButtonLeftHtml = "";
+                        commandButtonLeftHtml += "<a href='Post/ViewId?id=" + data + "' class='btn btn-default hl-view' style='margin-right: 3px;'><i class='fa fa-search'></i></span></a>";
+                        commandButtonLeftHtml += "<a href='PostAdmin/Edit?id=" + data + "' class='btn btn-default hl-view' style='margin-right: 3px;'><i class='fa fa-pencil'></i></span></a>";
+                        commandButtonLeftHtml += "<div class='btn btn-default hl-view deletePostButton' postId='" + data + "'><i class='fa fa-trash'></i></div>";
 
                         return commandButtonLeftHtml;
                     },
-                    width: "70"
+                    width: "120"
                 },
                 { "data": "Title" },
                 { "data": "Author" },
@@ -78,6 +80,16 @@
                 { "data": "Comments" },
                 { "data": "Timestamp" }
             ]
+        });
+
+        $("#PostTable").on("click", ".deletePostButton", function () {
+            if (!confirm("Are you sure you want to permanently delete this post?")) return;
+            var id = $(this).attr('postId');
+            $.ajax({
+                type: "POST",
+                url: "./PostAdmin/DeletePostPost?id=" + id
+            });
+            $('#PostTable').DataTable().row($(this).parents('tr')).remove().draw();
         });
     });
 </script>

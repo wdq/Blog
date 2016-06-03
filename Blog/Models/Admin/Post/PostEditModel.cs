@@ -76,6 +76,22 @@ namespace Blog.Models.Admin.Post
             }
         }
 
+        public static bool DeletePost(string id)
+        {
+            BlogDataDataContext database = new BlogDataDataContext();
+
+            var post = database.Posts.FirstOrDefault(x => x.Id == new Guid(id));
+            var categoryMap = database.PostCategoryMaps.Where(x => x.PostId == post.Id);
+            var tagMap = database.PostTagMaps.Where(x => x.PostId == post.Id);
+
+            database.Posts.DeleteOnSubmit(post);
+            database.PostCategoryMaps.DeleteAllOnSubmit(categoryMap);
+            database.PostTagMaps.DeleteAllOnSubmit(tagMap);
+
+            database.SubmitChanges();
+            return true;
+        }
+        
         public static Blog.Post PostEditPost(PostEditModel model)
         {
             BlogDataDataContext database = new BlogDataDataContext();

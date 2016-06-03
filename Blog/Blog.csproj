@@ -180,6 +180,7 @@
     <Compile Include="Models\Admin\Post\PostIndexModel.cs" />
     <Compile Include="Models\Admin\User\UserEditModel.cs" />
     <Compile Include="Models\Admin\User\UserIndexModel.cs" />
+    <Compile Include="Models\Post\PostViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1255,16 +1256,15 @@
     <Content Include="Scripts\moment-2.13.0\package.json" />
     <Content Include="Scripts\moment-2.13.0\README.md" />
     <Content Include="Scripts\moment-2.13.0\scripts\npm_prepublish.sh" />
+    <Content Include="Views\Post\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\Media\" />
     <Folder Include="Models\Page\" />
-    <Folder Include="Models\Post\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Media\" />
     <Folder Include="Views\Page\" />
-    <Folder Include="Views\Post\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
