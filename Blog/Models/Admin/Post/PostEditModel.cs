@@ -12,7 +12,7 @@ namespace Blog.Models.Admin.Post
         public string Title { get; set; }
         public string Body { get; set; }
         public Guid Author { get; set; }
-        public DateTime Timestamp { get; set; }
+        public string Timestamp { get; set; }
         public bool CommentsEnabled { get; set; }
         public string Status { get; set; }
         public string Visibility { get; set; }
@@ -31,7 +31,7 @@ namespace Blog.Models.Admin.Post
             Title = post.Title;
             Body = post.Body;
             Author = post.Author;
-            Timestamp = post.Timestamp;
+            Timestamp = post.Timestamp.ToString();
             CommentsEnabled = post.CommentsEnabled;
             Status = post.Status;
             Visibility = post.Visibility;
@@ -67,7 +67,7 @@ namespace Blog.Models.Admin.Post
                 databaseModel.Title = model.Title;
                 databaseModel.Body = model.Body;
                 databaseModel.Author = new Guid("cebe8069-bd64-4dc9-8622-d3de189287b1"); // todo: get current user id
-                databaseModel.Timestamp = model.Timestamp;
+                databaseModel.Timestamp = Convert.ToDateTime(model.Timestamp);
                 databaseModel.CommentsEnabled = model.CommentsEnabled;
                 databaseModel.Status = model.Status;
                 databaseModel.Visibility = model.Visibility;
@@ -83,7 +83,7 @@ namespace Blog.Models.Admin.Post
                 databaseModel.Title = model.Title;
                 databaseModel.Body = model.Body;
                 databaseModel.Author = new Guid("cebe8069-bd64-4dc9-8622-d3de189287b1"); // todo: get current user id
-                databaseModel.Timestamp = model.Timestamp;
+                databaseModel.Timestamp = Convert.ToDateTime(model.Timestamp);
                 databaseModel.CommentsEnabled = model.CommentsEnabled;
                 databaseModel.Status = model.Status;
                 databaseModel.Visibility = model.Visibility;

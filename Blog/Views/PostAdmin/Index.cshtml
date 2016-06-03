@@ -31,10 +31,20 @@
                         <tr>
                             <td>@post.Id</td>
                             <td>@post.Title</td>
-                            <td>@post.Author</td>
-                            <td>Todo</td>
-                            <td>Todo</td>
-                            <td>Todo</td>
+                            <td><a href="./UserAdmin/Edit?id=@post.Author.Key">@post.Author.Value</a></td>
+                            <td>
+                                @foreach(var category in post.Categories)
+                                {
+                                  <a href="./CategoryAdmin/Edit?id=@category.Key">@category.Value</a><text>, </text>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var tag in post.Tags)
+                                {
+                                    <a href="./TagAdmin/Edit?id=@tag.Key">@tag.Value</a><text>, </text>
+}
+                            </td>                            
+                            <td>@post.Comments</td>
                             <td>@post.Timestamp</td>
                         </tr>
                     }
