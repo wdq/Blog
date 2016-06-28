@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Blog" Class="BlogDataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=LOCALHOST;Initial Catalog=Blog;Integrated Security=True;Encrypt=False;TrustServerCertificate=True" SettingsObjectName="WordpressImporter.Properties.Settings" SettingsPropertyName="BlogConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Media" Member="Medias">
+    <Type Name="Media">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Caption" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="AltText" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="UploadedBy" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="FileName" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="FileType" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime2 NOT NULL" CanBeNull="false" />
+      <Column Name="FileSize" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="FileProperties" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Webpath" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="LocalPath" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Media_User" Member="Users" ThisKey="Id" OtherKey="ProfilePicture" Type="User" />
+      <Association Name="Media_Post" Member="Posts" ThisKey="Id" OtherKey="FeaturedImage" Type="Post" />
+      <Association Name="User_Media" Member="User" ThisKey="UploadedBy" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(64) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
+      <Column Name="Role" Type="System.String" DbType="NVarChar(32) NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="Nickname" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="PublicName" Type="System.String" DbType="NVarChar(32) NOT NULL" CanBeNull="false" />
+      <Column Name="Website" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="Biography" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ProfilePicture" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="User_Media" Member="Medias" ThisKey="Id" OtherKey="UploadedBy" Type="Media" />
+      <Association Name="User_Page" Member="Pages" ThisKey="Id" OtherKey="Author" Type="Page" />
+      <Association Name="User_Post" Member="Posts" ThisKey="Id" OtherKey="Author" Type="Post" />
+      <Association Name="Media_User" Member="Media" ThisKey="ProfilePicture" OtherKey="Id" Type="Media" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Page" Member="Pages">
+    <Type Name="Page">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Body" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Author" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime2 NOT NULL" CanBeNull="false" />
+      <Column Name="CommentsEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(32) NOT NULL" CanBeNull="false" />
+      <Column Name="Visibility" Type="System.String" DbType="NVarChar(32) NOT NULL" CanBeNull="false" />
+      <Column Name="Slug" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="User_Page" Member="User" ThisKey="Author" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Post" Member="Posts">
+    <Type Name="Post">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Body" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Author" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Timestamp" Type="System.DateTime" DbType="DateTime2 NOT NULL" CanBeNull="false" />
+      <Column Name="CommentsEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(32) NOT NULL" CanBeNull="false" />
+      <Column Name="Visibility" Type="System.String" DbType="NVarChar(32) NOT NULL" CanBeNull="false" />
+      <Column Name="FeaturedImage" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Slug" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="Post_PostCategoryMap" Member="PostCategoryMaps" ThisKey="Id" OtherKey="PostId" Type="PostCategoryMap" />
+      <Association Name="Post_PostTagMap" Member="PostTagMaps" ThisKey="Id" OtherKey="PostId" Type="PostTagMap" />
+      <Association Name="User_Post" Member="User" ThisKey="Author" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Association Name="Media_Post" Member="Media" ThisKey="FeaturedImage" OtherKey="Id" Type="Media" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PostCategory" Member="PostCategories">
+    <Type Name="PostCategory">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Slug" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Parent" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="PostCategory_PostCategory" Member="PostCategories" ThisKey="Id" OtherKey="Parent" Type="PostCategory" />
+      <Association Name="PostCategory_PostCategoryMap" Member="PostCategoryMaps" ThisKey="Id" OtherKey="CategoryId" Type="PostCategoryMap" />
+      <Association Name="PostCategory_PostCategory" Member="PostCategory1" ThisKey="Parent" OtherKey="Id" Type="PostCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PostCategoryMap" Member="PostCategoryMaps">
+    <Type Name="PostCategoryMap">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PostId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CategoryId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="PostCategory_PostCategoryMap" Member="PostCategory" ThisKey="CategoryId" OtherKey="Id" Type="PostCategory" IsForeignKey="true" />
+      <Association Name="Post_PostCategoryMap" Member="Post" ThisKey="PostId" OtherKey="Id" Type="Post" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PostTag" Member="PostTags">
+    <Type Name="PostTag">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Slug" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="PostTag_PostTagMap" Member="PostTagMaps" ThisKey="Id" OtherKey="TagId" Type="PostTagMap" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PostTagMap" Member="PostTagMaps">
+    <Type Name="PostTagMap">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PostId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="TagId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="Post_PostTagMap" Member="Post" ThisKey="PostId" OtherKey="Id" Type="Post" IsForeignKey="true" />
+      <Association Name="PostTag_PostTagMap" Member="PostTag" ThisKey="TagId" OtherKey="Id" Type="PostTag" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

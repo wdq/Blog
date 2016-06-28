@@ -310,9 +310,6 @@
     <Content Include="Scripts\bootstrap-datetimepicker-4.17.37\build\js\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="BlogData.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>BlogData.designer.cs</LastGenOutput>
