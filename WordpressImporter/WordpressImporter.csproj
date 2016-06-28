@@ -57,6 +57,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="WordPressModel\wpAuthor.cs" />
+    <Compile Include="WordPressModel\wpCategory.cs" />
+    <Compile Include="WordPressModel\wpComment.cs" />
+    <Compile Include="WordPressModel\wpPost.cs" />
+    <Compile Include="WordPressModel\wpTag.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

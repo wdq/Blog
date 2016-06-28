@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using PressSharp;
+using WordpressImporter.WordPressModel;
 
 namespace WordpressImporter
 {
@@ -23,7 +24,22 @@ namespace WordpressImporter
             XNamespace wpNamespace = "http://wordpress.org/export/1.2/";
             
             XElement inputFile = XElement.Load(@"C:\Users\wquade\Downloads\theprime.wordpress.2016-06-28_posts.xml");
-            IEnumerable<XElement> elements = inputFile.Elements().Elements("item");
+
+            IEnumerable<XElement> authorElements = inputFile.Elements().Elements(wpNamespace + "author");
+            foreach (XElement authorElement in authorElements)
+            {
+                User user = wpAuthor.AuthorToUser(new wpAuthor(authorElement));
+                Console.WriteLine("Importing user: " + user.Username);
+                var databaseUser = database.Users.FirstOrDefault(x => x.Username == user.Username);
+                if (databaseUser == null)
+                {
+                    database.Users.InsertOnSubmit(user);
+                    database.SubmitChanges();
+                }
+            }
+
+
+            /*IEnumerable<XElement> elements = inputFile.Elements().Elements("item");
             foreach (var element in elements)
             {
                 string title = element.Element("title").Value;
@@ -50,7 +66,7 @@ namespace WordpressImporter
                 {
                     string categoryValue = category.Value;
                 }
-            }
+            }*/
 
 
             /*string inputFile = File.ReadAllText(@"C:\Users\wquade\Downloads\theprime.wordpress.2016-06-28_posts.xml");
