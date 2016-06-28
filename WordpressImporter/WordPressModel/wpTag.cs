@@ -10,5 +10,11 @@ namespace WordpressImporter.WordPressModel
     {
         public string Slug { get; set; } // In the nicename attribute of the XML
         public string Name { get; set; } // In the CDATA part of the XML
+
+        public wpTag(string slug, string name)
+        {
+            Slug = slug;
+            Name = name;
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace WordpressImporter
             
             XElement inputFile = XElement.Load(@"C:\Users\wquade\Downloads\theprime.wordpress.2016-06-28_posts.xml");
 
-            IEnumerable<XElement> authorElements = inputFile.Elements().Elements(wpNamespace + "author");
+           /* IEnumerable<XElement> authorElements = inputFile.Elements().Elements(wpNamespace + "author");
             foreach (XElement authorElement in authorElements)
             {
                 User user = wpAuthor.AuthorToUser(new wpAuthor(authorElement));
@@ -36,37 +36,14 @@ namespace WordpressImporter
                     database.Users.InsertOnSubmit(user);
                     database.SubmitChanges();
                 }
-            }
+            }*/
 
 
-            /*IEnumerable<XElement> elements = inputFile.Elements().Elements("item");
+            IEnumerable<XElement> elements = inputFile.Elements().Elements("item");
             foreach (var element in elements)
             {
-                string title = element.Element("title").Value;
-                string link = element.Element("link").Value;
-                string pubDate = element.Element("pubDate").Value;
-                string creator = element.Element(dcNamespace + "creator").Value;
-                string guid = element.Element("guid").Value;
-                string description = element.Element("description").Value;
-                string content = element.Element(contentNamespace + "encoded").Value;
-                string excerpt = element.Element(excerptNamespace + "encoded").Value;
-                string comment_status = element.Element(wpNamespace + "comment_status").Value;
-                string post_name = element.Element(wpNamespace + "post_name").Value;
-                string status = element.Element(wpNamespace + "status").Value;
-                string post_type = element.Element(wpNamespace + "post_type").Value;
-
-                IEnumerable<XElement> tags = element.Elements("category").Where(x => (string) x.Attribute("domain") == "post_tag");
-                foreach (var tag in tags)
-                {
-                    string tagValue = tag.Value;
-                }
-
-                IEnumerable<XElement> categories = element.Elements("category").Where(x => (string)x.Attribute("domain") == "category");
-                foreach (var category in categories)
-                {
-                    string categoryValue = category.Value;
-                }
-            }*/
+                wpPost post = new wpPost(element);
+            }
 
 
             /*string inputFile = File.ReadAllText(@"C:\Users\wquade\Downloads\theprime.wordpress.2016-06-28_posts.xml");
