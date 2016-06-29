@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace WordpressImporter.WordPressModel
 
             Title = postElement.Element("title").Value;
             Link = postElement.Element("link").Value;
-            PubDate = DateTime.Parse(postElement.Element("pubDate").Value);
+            //PubDate = DateTime.Parse(postElement.Element("pubDate").Value, new DateTimeFormatInfo(""));
             Creator = database.Users.FirstOrDefault(x => x.Username == postElement.Element(dcNamespace + "creator").Value).Id;
             Guid = postElement.Element("guid").Value;
             Description = postElement.Element("description").Value;
@@ -52,7 +53,7 @@ namespace WordpressImporter.WordPressModel
             Excerpt = postElement.Element(excerptNamespace + "encoded").Value;
             PostId = int.Parse(postElement.Element(wpNamespace + "post_id").Value);
             PostDate = DateTime.Parse(postElement.Element(wpNamespace + "post_date").Value);
-            PostDateGmt = DateTime.Parse(postElement.Element(wpNamespace + "post_date_gmt").Value);
+            //PostDateGmt = DateTime.Parse(postElement.Element(wpNamespace + "post_date_gmt").Value);
             CommentStatus = postElement.Element(wpNamespace + "comment_status").Value;
             PostName = postElement.Element(wpNamespace + "post_name").Value;
             Status = postElement.Element(wpNamespace + "status").Value;
@@ -94,8 +95,9 @@ namespace WordpressImporter.WordPressModel
 
         public static bool ImportPost(wpPost post)
         {
+            Console.WriteLine("Importing post: " + post.Title);
             BlogDataDataContext database = new BlogDataDataContext();
-            string slug = post.Title.Substring(post.Title.IndexOf("http://theprime.co/") + "http://theprime.co/".Length - 1);
+            string slug = post.Link.Substring(post.Link.IndexOf("http://theprime.co/") + "http://theprime.co/".Length + 2).TrimEnd('/');
             Post databasePost = database.Posts.FirstOrDefault(x => x.Slug == slug);
             if (databasePost == null)
             {
@@ -104,7 +106,7 @@ namespace WordpressImporter.WordPressModel
                 newPost.Title = post.Title;
                 newPost.Body = post.Content;
                 newPost.Author = post.Creator;
-                newPost.Timestamp = post.PubDate;
+                newPost.Timestamp = post.PostDate;
                 if (post.CommentStatus.ToLower() == "enabled")
                 {
                     newPost.CommentsEnabled = true;
@@ -124,6 +126,7 @@ namespace WordpressImporter.WordPressModel
                 foreach (var category in post.Categories)
                 {
                     PostCategoryMap map = new PostCategoryMap();
+                    map.Id = System.Guid.NewGuid();
 
                     PostCategory databaseCategory = database.PostCategories.FirstOrDefault(x => x.Slug == category.Slug);
                     if (databaseCategory == null)
@@ -150,6 +153,7 @@ namespace WordpressImporter.WordPressModel
                 foreach (var tag in post.Tags)
                 {
                     PostTagMap map = new PostTagMap();
+                    map.Id = System.Guid.NewGuid();
 
                     PostTag databaseTag = database.PostTags.FirstOrDefault(x => x.Slug == tag.Slug);
                     if (databaseTag == null)
@@ -175,7 +179,45 @@ namespace WordpressImporter.WordPressModel
 
                 foreach (var comment in post.Comments)
                 {
-                    
+                    PostCommentMap map = new PostCommentMap();
+                    map.Id = System.Guid.NewGuid();
+
+                    PostComment databaseComment = database.PostComments.FirstOrDefault(x => x.Id == comment.Id);
+                    if (databaseComment == null)
+                    {
+                        PostComment newComment = new PostComment();
+                        newComment.Id = comment.Id;
+                        if (comment.Approved.ToLower() == "true" || comment.Approved.ToLower() == "yes" ||
+                            comment.Approved.ToLower() == "1")
+                        {
+                            newComment.Approved = true;
+                        }
+                        else
+                        {
+                            newComment.Approved = false;
+                        }
+                        newComment.Author = comment.Author;
+                        newComment.AuthorEmail = comment.AuthorEmail;
+                        newComment.AuthorIp = comment.AuthorIp;
+                        newComment.AuthorUrl = comment.AuthorUrl;
+                        newComment.Content = comment.Content;
+                        newComment.Parent = comment.Parent;
+                        newComment.Timestamp = comment.Date;
+                        newComment.Type = comment.Type;
+                        database.PostComments.InsertOnSubmit(newComment);
+                        map.CommentId = newComment.Id;
+
+                        database.SubmitChanges();
+                    }
+                    else
+                    {
+                        map.CommentId = databaseComment.Id;
+                    }
+
+                    map.PostId = newPost.Id;
+                    database.PostCommentMaps.InsertOnSubmit(map);
+                    database.SubmitChanges();
+
                 }
 
             }

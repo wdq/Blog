@@ -43,6 +43,7 @@ namespace WordpressImporter
             foreach (var element in elements)
             {
                 wpPost post = new wpPost(element);
+                wpPost.ImportPost(post);
             }
 
 
