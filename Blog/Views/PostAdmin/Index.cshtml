@@ -1,6 +1,4 @@
-﻿@model Blog.Models.Admin.Post.PostIndexModel
-
-@{
+﻿@{
     ViewBag.Title = "Posts";
 }
 
@@ -25,30 +23,6 @@
                         <th>Timestamp</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var post in Model.Posts)
-            {
-                        <tr>
-                            <td>@post.Id</td>
-                            <td>@post.Title</td>
-                            <td><a href="./UserAdmin/Edit?id=@post.Author.Key">@post.Author.Value</a></td>
-                            <td>
-                                @foreach(var category in post.Categories)
-                                {
-                                  <a href="./CategoryAdmin/Edit?id=@category.Key">@category.Value</a><text>, </text>
-                                }
-                            </td>
-                            <td>
-                                @foreach (var tag in post.Tags)
-                                {
-                                    <a href="./TagAdmin/Edit?id=@tag.Key">@tag.Value</a><text>, </text>
-}
-                            </td>                            
-                            <td>@post.Comments</td>
-                            <td>@post.Timestamp</td>
-                        </tr>
-                    }
-                </tbody>
             </table>
         </div>
     </div>
@@ -56,27 +30,34 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        var userTable = $('#PostTable').DataTable({
-            "order": [[1, "asc"]],
-            columns: [
-                {
-                    className: "commandButtonLeft",
-                    data: "Id",
-                    sortable: false,
-                    render: function (data, type, full, meta) {
-                        var commandButtonLeftHtml = "";
-                        commandButtonLeftHtml += "<a href='Post/ViewId?id=" + data + "' class='btn btn-default hl-view' style='margin-right: 3px;'><i class='fa fa-search'></i></span></a>";
-                        commandButtonLeftHtml += "<a href='PostAdmin/Edit?id=" + data + "' class='btn btn-default hl-view' style='margin-right: 3px;'><i class='fa fa-pencil'></i></span></a>";
-                        commandButtonLeftHtml += "<div class='btn btn-default hl-view deletePostButton' postId='" + data + "'><i class='fa fa-trash'></i></div>";
 
-                        return commandButtonLeftHtml;
-                    },
-                    width: "120"
+        var userTable = $('#PostTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [[6, "desc"]],
+            "ajax": {
+                "type": "POST",
+                "url": "PostAdmin/PostIndexTable",
+                "dataType": "JSON"
+            },
+            "processing": true,
+            "paging": true,
+            "deferRender": true,
+            "columns": [
+                {
+                    "data": "Id",
+                    sortable: false
                 },
                 { "data": "Title" },
                 { "data": "Author" },
-                { "data": "Categories" },
-                { "data": "Tags" },
+                {
+                    "data": "Categories",
+                    sortable: false
+                },
+                {
+                    "data": "Tags",
+                    sortable: false
+                },
                 { "data": "Comments" },
                 { "data": "Timestamp" }
             ]

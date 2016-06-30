@@ -12,12 +12,26 @@ namespace Blog.Controllers.Admin.Post
         // GET: PostAdmin
         public ActionResult Index()
         {
-            return View(PostIndexModel.PostIndex());
+            return View();
         }
 
         public ActionResult Edit(string id)
         {
             return View(PostEditModel.PostEdit(id));
+        }
+
+        [HttpPost]
+        public JsonResult PostIndexTable()
+        {
+            var postTable = PostIndexTableModel.PostTable(Request);
+
+            return Json(new
+            {
+                draw = postTable.Draw,
+                recordsTotal = postTable.RecordsTotal,
+                recordsFiltered = postTable.RecordsFiltered,
+                data = postTable.Data
+            }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

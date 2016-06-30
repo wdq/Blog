@@ -33,6 +33,9 @@ namespace Blog
     partial void InsertMedia(Media instance);
     partial void UpdateMedia(Media instance);
     partial void DeleteMedia(Media instance);
+    partial void InsertUser(User instance);
+    partial void UpdateUser(User instance);
+    partial void DeleteUser(User instance);
     partial void InsertPage(Page instance);
     partial void UpdatePage(Page instance);
     partial void DeletePage(Page instance);
@@ -45,15 +48,18 @@ namespace Blog
     partial void InsertPostCategoryMap(PostCategoryMap instance);
     partial void UpdatePostCategoryMap(PostCategoryMap instance);
     partial void DeletePostCategoryMap(PostCategoryMap instance);
+    partial void InsertPostComment(PostComment instance);
+    partial void UpdatePostComment(PostComment instance);
+    partial void DeletePostComment(PostComment instance);
+    partial void InsertPostCommentMap(PostCommentMap instance);
+    partial void UpdatePostCommentMap(PostCommentMap instance);
+    partial void DeletePostCommentMap(PostCommentMap instance);
     partial void InsertPostTag(PostTag instance);
     partial void UpdatePostTag(PostTag instance);
     partial void DeletePostTag(PostTag instance);
     partial void InsertPostTagMap(PostTagMap instance);
     partial void UpdatePostTagMap(PostTagMap instance);
     partial void DeletePostTagMap(PostTagMap instance);
-    partial void InsertUser(User instance);
-    partial void UpdateUser(User instance);
-    partial void DeleteUser(User instance);
     #endregion
 		
 		public BlogDataDataContext() : 
@@ -94,6 +100,14 @@ namespace Blog
 			}
 		}
 		
+		public System.Data.Linq.Table<User> Users
+		{
+			get
+			{
+				return this.GetTable<User>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Page> Pages
 		{
 			get
@@ -126,6 +140,22 @@ namespace Blog
 			}
 		}
 		
+		public System.Data.Linq.Table<PostComment> PostComments
+		{
+			get
+			{
+				return this.GetTable<PostComment>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PostCommentMap> PostCommentMaps
+		{
+			get
+			{
+				return this.GetTable<PostCommentMap>();
+			}
+		}
+		
 		public System.Data.Linq.Table<PostTag> PostTags
 		{
 			get
@@ -139,14 +169,6 @@ namespace Blog
 			get
 			{
 				return this.GetTable<PostTagMap>();
-			}
-		}
-		
-		public System.Data.Linq.Table<User> Users
-		{
-			get
-			{
-				return this.GetTable<User>();
 			}
 		}
 	}
@@ -183,9 +205,9 @@ namespace Blog
 		
 		private string _LocalPath;
 		
-		private EntitySet<Post> _Posts;
-		
 		private EntitySet<User> _Users;
+		
+		private EntitySet<Post> _Posts;
 		
 		private EntityRef<User> _User;
 		
@@ -223,8 +245,8 @@ namespace Blog
 		
 		public Media()
 		{
-			this._Posts = new EntitySet<Post>(new Action<Post>(this.attach_Posts), new Action<Post>(this.detach_Posts));
 			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			this._Posts = new EntitySet<Post>(new Action<Post>(this.attach_Posts), new Action<Post>(this.detach_Posts));
 			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
@@ -493,19 +515,6 @@ namespace Blog
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Media_Post", Storage="_Posts", ThisKey="Id", OtherKey="FeaturedImage")]
-		public EntitySet<Post> Posts
-		{
-			get
-			{
-				return this._Posts;
-			}
-			set
-			{
-				this._Posts.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Media_User", Storage="_Users", ThisKey="Id", OtherKey="ProfilePicture")]
 		public EntitySet<User> Users
 		{
@@ -516,6 +525,19 @@ namespace Blog
 			set
 			{
 				this._Users.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Media_Post", Storage="_Posts", ThisKey="Id", OtherKey="FeaturedImage")]
+		public EntitySet<Post> Posts
+		{
+			get
+			{
+				return this._Posts;
+			}
+			set
+			{
+				this._Posts.Assign(value);
 			}
 		}
 		
@@ -573,6 +595,18 @@ namespace Blog
 			}
 		}
 		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Media = this;
+		}
+		
+		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Media = null;
+		}
+		
 		private void attach_Posts(Post entity)
 		{
 			this.SendPropertyChanging();
@@ -584,17 +618,456 @@ namespace Blog
 			this.SendPropertyChanging();
 			entity.Media = null;
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
+	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		private void attach_Users(User entity)
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Id;
+		
+		private string _Username;
+		
+		private string _Email;
+		
+		private string _Role;
+		
+		private string _FirstName;
+		
+		private string _LastName;
+		
+		private string _Nickname;
+		
+		private string _PublicName;
+		
+		private string _Website;
+		
+		private string _Biography;
+		
+		private System.Nullable<System.Guid> _ProfilePicture;
+		
+		private string _Password;
+		
+		private EntitySet<Media> _Medias;
+		
+		private EntitySet<Page> _Pages;
+		
+		private EntitySet<Post> _Posts;
+		
+		private EntityRef<Media> _Media;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(System.Guid value);
+    partial void OnIdChanged();
+    partial void OnUsernameChanging(string value);
+    partial void OnUsernameChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnRoleChanging(string value);
+    partial void OnRoleChanged();
+    partial void OnFirstNameChanging(string value);
+    partial void OnFirstNameChanged();
+    partial void OnLastNameChanging(string value);
+    partial void OnLastNameChanged();
+    partial void OnNicknameChanging(string value);
+    partial void OnNicknameChanged();
+    partial void OnPublicNameChanging(string value);
+    partial void OnPublicNameChanged();
+    partial void OnWebsiteChanging(string value);
+    partial void OnWebsiteChanged();
+    partial void OnBiographyChanging(string value);
+    partial void OnBiographyChanged();
+    partial void OnProfilePictureChanging(System.Nullable<System.Guid> value);
+    partial void OnProfilePictureChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    #endregion
+		
+		public User()
 		{
-			this.SendPropertyChanging();
-			entity.Media = this;
+			this._Medias = new EntitySet<Media>(new Action<Media>(this.attach_Medias), new Action<Media>(this.detach_Medias));
+			this._Pages = new EntitySet<Page>(new Action<Page>(this.attach_Pages), new Action<Page>(this.detach_Pages));
+			this._Posts = new EntitySet<Post>(new Action<Post>(this.attach_Posts), new Action<Post>(this.detach_Posts));
+			this._Media = default(EntityRef<Media>);
+			OnCreated();
 		}
 		
-		private void detach_Users(User entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Username", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
+		public string Username
+		{
+			get
+			{
+				return this._Username;
+			}
+			set
+			{
+				if ((this._Username != value))
+				{
+					this.OnUsernameChanging(value);
+					this.SendPropertyChanging();
+					this._Username = value;
+					this.SendPropertyChanged("Username");
+					this.OnUsernameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(512) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Role", DbType="NVarChar(32) NOT NULL", CanBeNull=false)]
+		public string Role
+		{
+			get
+			{
+				return this._Role;
+			}
+			set
+			{
+				if ((this._Role != value))
+				{
+					this.OnRoleChanging(value);
+					this.SendPropertyChanging();
+					this._Role = value;
+					this.SendPropertyChanged("Role");
+					this.OnRoleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="NVarChar(128)")]
+		public string FirstName
+		{
+			get
+			{
+				return this._FirstName;
+			}
+			set
+			{
+				if ((this._FirstName != value))
+				{
+					this.OnFirstNameChanging(value);
+					this.SendPropertyChanging();
+					this._FirstName = value;
+					this.SendPropertyChanged("FirstName");
+					this.OnFirstNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="NVarChar(128)")]
+		public string LastName
+		{
+			get
+			{
+				return this._LastName;
+			}
+			set
+			{
+				if ((this._LastName != value))
+				{
+					this.OnLastNameChanging(value);
+					this.SendPropertyChanging();
+					this._LastName = value;
+					this.SendPropertyChanged("LastName");
+					this.OnLastNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nickname", DbType="NVarChar(256)")]
+		public string Nickname
+		{
+			get
+			{
+				return this._Nickname;
+			}
+			set
+			{
+				if ((this._Nickname != value))
+				{
+					this.OnNicknameChanging(value);
+					this.SendPropertyChanging();
+					this._Nickname = value;
+					this.SendPropertyChanged("Nickname");
+					this.OnNicknameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PublicName", DbType="NVarChar(32) NOT NULL", CanBeNull=false)]
+		public string PublicName
+		{
+			get
+			{
+				return this._PublicName;
+			}
+			set
+			{
+				if ((this._PublicName != value))
+				{
+					this.OnPublicNameChanging(value);
+					this.SendPropertyChanging();
+					this._PublicName = value;
+					this.SendPropertyChanged("PublicName");
+					this.OnPublicNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Website", DbType="NVarChar(256)")]
+		public string Website
+		{
+			get
+			{
+				return this._Website;
+			}
+			set
+			{
+				if ((this._Website != value))
+				{
+					this.OnWebsiteChanging(value);
+					this.SendPropertyChanging();
+					this._Website = value;
+					this.SendPropertyChanged("Website");
+					this.OnWebsiteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Biography", DbType="NVarChar(MAX)")]
+		public string Biography
+		{
+			get
+			{
+				return this._Biography;
+			}
+			set
+			{
+				if ((this._Biography != value))
+				{
+					this.OnBiographyChanging(value);
+					this.SendPropertyChanging();
+					this._Biography = value;
+					this.SendPropertyChanged("Biography");
+					this.OnBiographyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProfilePicture", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ProfilePicture
+		{
+			get
+			{
+				return this._ProfilePicture;
+			}
+			set
+			{
+				if ((this._ProfilePicture != value))
+				{
+					if (this._Media.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProfilePictureChanging(value);
+					this.SendPropertyChanging();
+					this._ProfilePicture = value;
+					this.SendPropertyChanged("ProfilePicture");
+					this.OnProfilePictureChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Media", Storage="_Medias", ThisKey="Id", OtherKey="UploadedBy")]
+		public EntitySet<Media> Medias
+		{
+			get
+			{
+				return this._Medias;
+			}
+			set
+			{
+				this._Medias.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Page", Storage="_Pages", ThisKey="Id", OtherKey="Author")]
+		public EntitySet<Page> Pages
+		{
+			get
+			{
+				return this._Pages;
+			}
+			set
+			{
+				this._Pages.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Post", Storage="_Posts", ThisKey="Id", OtherKey="Author")]
+		public EntitySet<Post> Posts
+		{
+			get
+			{
+				return this._Posts;
+			}
+			set
+			{
+				this._Posts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Media_User", Storage="_Media", ThisKey="ProfilePicture", OtherKey="Id", IsForeignKey=true)]
+		public Media Media
+		{
+			get
+			{
+				return this._Media.Entity;
+			}
+			set
+			{
+				Media previousValue = this._Media.Entity;
+				if (((previousValue != value) 
+							|| (this._Media.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Media.Entity = null;
+						previousValue.Users.Remove(this);
+					}
+					this._Media.Entity = value;
+					if ((value != null))
+					{
+						value.Users.Add(this);
+						this._ProfilePicture = value.Id;
+					}
+					else
+					{
+						this._ProfilePicture = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Media");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Medias(Media entity)
 		{
 			this.SendPropertyChanging();
-			entity.Media = null;
+			entity.User = this;
+		}
+		
+		private void detach_Medias(Media entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Pages(Page entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Pages(Page entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Posts(Post entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Posts(Post entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
 		}
 	}
 	
@@ -921,11 +1394,13 @@ namespace Blog
 		
 		private EntitySet<PostCategoryMap> _PostCategoryMaps;
 		
+		private EntitySet<PostCommentMap> _PostCommentMaps;
+		
 		private EntitySet<PostTagMap> _PostTagMaps;
 		
-		private EntityRef<Media> _Media;
-		
 		private EntityRef<User> _User;
+		
+		private EntityRef<Media> _Media;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -956,9 +1431,10 @@ namespace Blog
 		public Post()
 		{
 			this._PostCategoryMaps = new EntitySet<PostCategoryMap>(new Action<PostCategoryMap>(this.attach_PostCategoryMaps), new Action<PostCategoryMap>(this.detach_PostCategoryMaps));
+			this._PostCommentMaps = new EntitySet<PostCommentMap>(new Action<PostCommentMap>(this.attach_PostCommentMaps), new Action<PostCommentMap>(this.detach_PostCommentMaps));
 			this._PostTagMaps = new EntitySet<PostTagMap>(new Action<PostTagMap>(this.attach_PostTagMaps), new Action<PostTagMap>(this.detach_PostTagMaps));
-			this._Media = default(EntityRef<Media>);
 			this._User = default(EntityRef<User>);
+			this._Media = default(EntityRef<Media>);
 			OnCreated();
 		}
 		
@@ -1183,6 +1659,19 @@ namespace Blog
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Post_PostCommentMap", Storage="_PostCommentMaps", ThisKey="Id", OtherKey="PostId")]
+		public EntitySet<PostCommentMap> PostCommentMaps
+		{
+			get
+			{
+				return this._PostCommentMaps;
+			}
+			set
+			{
+				this._PostCommentMaps.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Post_PostTagMap", Storage="_PostTagMaps", ThisKey="Id", OtherKey="PostId")]
 		public EntitySet<PostTagMap> PostTagMaps
 		{
@@ -1193,40 +1682,6 @@ namespace Blog
 			set
 			{
 				this._PostTagMaps.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Media_Post", Storage="_Media", ThisKey="FeaturedImage", OtherKey="Id", IsForeignKey=true)]
-		public Media Media
-		{
-			get
-			{
-				return this._Media.Entity;
-			}
-			set
-			{
-				Media previousValue = this._Media.Entity;
-				if (((previousValue != value) 
-							|| (this._Media.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Media.Entity = null;
-						previousValue.Posts.Remove(this);
-					}
-					this._Media.Entity = value;
-					if ((value != null))
-					{
-						value.Posts.Add(this);
-						this._FeaturedImage = value.Id;
-					}
-					else
-					{
-						this._FeaturedImage = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Media");
-				}
 			}
 		}
 		
@@ -1264,6 +1719,40 @@ namespace Blog
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Media_Post", Storage="_Media", ThisKey="FeaturedImage", OtherKey="Id", IsForeignKey=true)]
+		public Media Media
+		{
+			get
+			{
+				return this._Media.Entity;
+			}
+			set
+			{
+				Media previousValue = this._Media.Entity;
+				if (((previousValue != value) 
+							|| (this._Media.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Media.Entity = null;
+						previousValue.Posts.Remove(this);
+					}
+					this._Media.Entity = value;
+					if ((value != null))
+					{
+						value.Posts.Add(this);
+						this._FeaturedImage = value.Id;
+					}
+					else
+					{
+						this._FeaturedImage = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Media");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1291,6 +1780,18 @@ namespace Blog
 		}
 		
 		private void detach_PostCategoryMaps(PostCategoryMap entity)
+		{
+			this.SendPropertyChanging();
+			entity.Post = null;
+		}
+		
+		private void attach_PostCommentMaps(PostCommentMap entity)
+		{
+			this.SendPropertyChanging();
+			entity.Post = this;
+		}
+		
+		private void detach_PostCommentMaps(PostCommentMap entity)
 		{
 			this.SendPropertyChanging();
 			entity.Post = null;
@@ -1756,6 +2257,504 @@ namespace Blog
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PostComment")]
+	public partial class PostComment : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Author;
+		
+		private string _AuthorEmail;
+		
+		private string _AuthorUrl;
+		
+		private string _AuthorIp;
+		
+		private System.DateTime _Timestamp;
+		
+		private string _Content;
+		
+		private bool _Approved;
+		
+		private string _Type;
+		
+		private System.Nullable<int> _Parent;
+		
+		private EntitySet<PostCommentMap> _PostCommentMaps;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnAuthorChanging(string value);
+    partial void OnAuthorChanged();
+    partial void OnAuthorEmailChanging(string value);
+    partial void OnAuthorEmailChanged();
+    partial void OnAuthorUrlChanging(string value);
+    partial void OnAuthorUrlChanged();
+    partial void OnAuthorIpChanging(string value);
+    partial void OnAuthorIpChanged();
+    partial void OnTimestampChanging(System.DateTime value);
+    partial void OnTimestampChanged();
+    partial void OnContentChanging(string value);
+    partial void OnContentChanged();
+    partial void OnApprovedChanging(bool value);
+    partial void OnApprovedChanged();
+    partial void OnTypeChanging(string value);
+    partial void OnTypeChanged();
+    partial void OnParentChanging(System.Nullable<int> value);
+    partial void OnParentChanged();
+    #endregion
+		
+		public PostComment()
+		{
+			this._PostCommentMaps = new EntitySet<PostCommentMap>(new Action<PostCommentMap>(this.attach_PostCommentMaps), new Action<PostCommentMap>(this.detach_PostCommentMaps));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Author", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Author
+		{
+			get
+			{
+				return this._Author;
+			}
+			set
+			{
+				if ((this._Author != value))
+				{
+					this.OnAuthorChanging(value);
+					this.SendPropertyChanging();
+					this._Author = value;
+					this.SendPropertyChanged("Author");
+					this.OnAuthorChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AuthorEmail", DbType="NVarChar(MAX)")]
+		public string AuthorEmail
+		{
+			get
+			{
+				return this._AuthorEmail;
+			}
+			set
+			{
+				if ((this._AuthorEmail != value))
+				{
+					this.OnAuthorEmailChanging(value);
+					this.SendPropertyChanging();
+					this._AuthorEmail = value;
+					this.SendPropertyChanged("AuthorEmail");
+					this.OnAuthorEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AuthorUrl", DbType="NVarChar(MAX)")]
+		public string AuthorUrl
+		{
+			get
+			{
+				return this._AuthorUrl;
+			}
+			set
+			{
+				if ((this._AuthorUrl != value))
+				{
+					this.OnAuthorUrlChanging(value);
+					this.SendPropertyChanging();
+					this._AuthorUrl = value;
+					this.SendPropertyChanged("AuthorUrl");
+					this.OnAuthorUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AuthorIp", DbType="NVarChar(MAX)")]
+		public string AuthorIp
+		{
+			get
+			{
+				return this._AuthorIp;
+			}
+			set
+			{
+				if ((this._AuthorIp != value))
+				{
+					this.OnAuthorIpChanging(value);
+					this.SendPropertyChanging();
+					this._AuthorIp = value;
+					this.SendPropertyChanged("AuthorIp");
+					this.OnAuthorIpChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Timestamp", DbType="DateTime2 NOT NULL")]
+		public System.DateTime Timestamp
+		{
+			get
+			{
+				return this._Timestamp;
+			}
+			set
+			{
+				if ((this._Timestamp != value))
+				{
+					this.OnTimestampChanging(value);
+					this.SendPropertyChanging();
+					this._Timestamp = value;
+					this.SendPropertyChanged("Timestamp");
+					this.OnTimestampChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Content", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Content
+		{
+			get
+			{
+				return this._Content;
+			}
+			set
+			{
+				if ((this._Content != value))
+				{
+					this.OnContentChanging(value);
+					this.SendPropertyChanging();
+					this._Content = value;
+					this.SendPropertyChanged("Content");
+					this.OnContentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Approved", DbType="Bit NOT NULL")]
+		public bool Approved
+		{
+			get
+			{
+				return this._Approved;
+			}
+			set
+			{
+				if ((this._Approved != value))
+				{
+					this.OnApprovedChanging(value);
+					this.SendPropertyChanging();
+					this._Approved = value;
+					this.SendPropertyChanged("Approved");
+					this.OnApprovedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="NVarChar(MAX)")]
+		public string Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Parent", DbType="Int")]
+		public System.Nullable<int> Parent
+		{
+			get
+			{
+				return this._Parent;
+			}
+			set
+			{
+				if ((this._Parent != value))
+				{
+					this.OnParentChanging(value);
+					this.SendPropertyChanging();
+					this._Parent = value;
+					this.SendPropertyChanged("Parent");
+					this.OnParentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PostComment_PostCommentMap", Storage="_PostCommentMaps", ThisKey="Id", OtherKey="CommentId")]
+		public EntitySet<PostCommentMap> PostCommentMaps
+		{
+			get
+			{
+				return this._PostCommentMaps;
+			}
+			set
+			{
+				this._PostCommentMaps.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_PostCommentMaps(PostCommentMap entity)
+		{
+			this.SendPropertyChanging();
+			entity.PostComment = this;
+		}
+		
+		private void detach_PostCommentMaps(PostCommentMap entity)
+		{
+			this.SendPropertyChanging();
+			entity.PostComment = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PostCommentMap")]
+	public partial class PostCommentMap : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Id;
+		
+		private int _CommentId;
+		
+		private System.Guid _PostId;
+		
+		private EntityRef<PostComment> _PostComment;
+		
+		private EntityRef<Post> _Post;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(System.Guid value);
+    partial void OnIdChanged();
+    partial void OnCommentIdChanging(int value);
+    partial void OnCommentIdChanged();
+    partial void OnPostIdChanging(System.Guid value);
+    partial void OnPostIdChanged();
+    #endregion
+		
+		public PostCommentMap()
+		{
+			this._PostComment = default(EntityRef<PostComment>);
+			this._Post = default(EntityRef<Post>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommentId", DbType="Int NOT NULL")]
+		public int CommentId
+		{
+			get
+			{
+				return this._CommentId;
+			}
+			set
+			{
+				if ((this._CommentId != value))
+				{
+					if (this._PostComment.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCommentIdChanging(value);
+					this.SendPropertyChanging();
+					this._CommentId = value;
+					this.SendPropertyChanged("CommentId");
+					this.OnCommentIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PostId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid PostId
+		{
+			get
+			{
+				return this._PostId;
+			}
+			set
+			{
+				if ((this._PostId != value))
+				{
+					if (this._Post.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPostIdChanging(value);
+					this.SendPropertyChanging();
+					this._PostId = value;
+					this.SendPropertyChanged("PostId");
+					this.OnPostIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PostComment_PostCommentMap", Storage="_PostComment", ThisKey="CommentId", OtherKey="Id", IsForeignKey=true)]
+		public PostComment PostComment
+		{
+			get
+			{
+				return this._PostComment.Entity;
+			}
+			set
+			{
+				PostComment previousValue = this._PostComment.Entity;
+				if (((previousValue != value) 
+							|| (this._PostComment.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._PostComment.Entity = null;
+						previousValue.PostCommentMaps.Remove(this);
+					}
+					this._PostComment.Entity = value;
+					if ((value != null))
+					{
+						value.PostCommentMaps.Add(this);
+						this._CommentId = value.Id;
+					}
+					else
+					{
+						this._CommentId = default(int);
+					}
+					this.SendPropertyChanged("PostComment");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Post_PostCommentMap", Storage="_Post", ThisKey="PostId", OtherKey="Id", IsForeignKey=true)]
+		public Post Post
+		{
+			get
+			{
+				return this._Post.Entity;
+			}
+			set
+			{
+				Post previousValue = this._Post.Entity;
+				if (((previousValue != value) 
+							|| (this._Post.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Post.Entity = null;
+						previousValue.PostCommentMaps.Remove(this);
+					}
+					this._Post.Entity = value;
+					if ((value != null))
+					{
+						value.PostCommentMaps.Add(this);
+						this._PostId = value.Id;
+					}
+					else
+					{
+						this._PostId = default(System.Guid);
+					}
+					this.SendPropertyChanged("Post");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PostTag")]
 	public partial class PostTag : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2107,457 +3106,6 @@ namespace Blog
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _Id;
-		
-		private string _Username;
-		
-		private string _Email;
-		
-		private string _Role;
-		
-		private string _FirstName;
-		
-		private string _LastName;
-		
-		private string _Nickname;
-		
-		private string _PublicName;
-		
-		private string _Website;
-		
-		private string _Biography;
-		
-		private System.Nullable<System.Guid> _ProfilePicture;
-		
-		private string _Password;
-		
-		private EntitySet<Media> _Medias;
-		
-		private EntitySet<Page> _Pages;
-		
-		private EntitySet<Post> _Posts;
-		
-		private EntityRef<Media> _Media;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(System.Guid value);
-    partial void OnIdChanged();
-    partial void OnUsernameChanging(string value);
-    partial void OnUsernameChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
-    partial void OnRoleChanging(string value);
-    partial void OnRoleChanged();
-    partial void OnFirstNameChanging(string value);
-    partial void OnFirstNameChanged();
-    partial void OnLastNameChanging(string value);
-    partial void OnLastNameChanged();
-    partial void OnNicknameChanging(string value);
-    partial void OnNicknameChanged();
-    partial void OnPublicNameChanging(string value);
-    partial void OnPublicNameChanged();
-    partial void OnWebsiteChanging(string value);
-    partial void OnWebsiteChanged();
-    partial void OnBiographyChanging(string value);
-    partial void OnBiographyChanged();
-    partial void OnProfilePictureChanging(System.Nullable<System.Guid> value);
-    partial void OnProfilePictureChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
-    #endregion
-		
-		public User()
-		{
-			this._Medias = new EntitySet<Media>(new Action<Media>(this.attach_Medias), new Action<Media>(this.detach_Medias));
-			this._Pages = new EntitySet<Page>(new Action<Page>(this.attach_Pages), new Action<Page>(this.detach_Pages));
-			this._Posts = new EntitySet<Post>(new Action<Post>(this.attach_Posts), new Action<Post>(this.detach_Posts));
-			this._Media = default(EntityRef<Media>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Username", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
-		public string Username
-		{
-			get
-			{
-				return this._Username;
-			}
-			set
-			{
-				if ((this._Username != value))
-				{
-					this.OnUsernameChanging(value);
-					this.SendPropertyChanging();
-					this._Username = value;
-					this.SendPropertyChanged("Username");
-					this.OnUsernameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(512) NOT NULL", CanBeNull=false)]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Role", DbType="NVarChar(32) NOT NULL", CanBeNull=false)]
-		public string Role
-		{
-			get
-			{
-				return this._Role;
-			}
-			set
-			{
-				if ((this._Role != value))
-				{
-					this.OnRoleChanging(value);
-					this.SendPropertyChanging();
-					this._Role = value;
-					this.SendPropertyChanged("Role");
-					this.OnRoleChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="NVarChar(128)")]
-		public string FirstName
-		{
-			get
-			{
-				return this._FirstName;
-			}
-			set
-			{
-				if ((this._FirstName != value))
-				{
-					this.OnFirstNameChanging(value);
-					this.SendPropertyChanging();
-					this._FirstName = value;
-					this.SendPropertyChanged("FirstName");
-					this.OnFirstNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="NVarChar(128)")]
-		public string LastName
-		{
-			get
-			{
-				return this._LastName;
-			}
-			set
-			{
-				if ((this._LastName != value))
-				{
-					this.OnLastNameChanging(value);
-					this.SendPropertyChanging();
-					this._LastName = value;
-					this.SendPropertyChanged("LastName");
-					this.OnLastNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nickname", DbType="NVarChar(256)")]
-		public string Nickname
-		{
-			get
-			{
-				return this._Nickname;
-			}
-			set
-			{
-				if ((this._Nickname != value))
-				{
-					this.OnNicknameChanging(value);
-					this.SendPropertyChanging();
-					this._Nickname = value;
-					this.SendPropertyChanged("Nickname");
-					this.OnNicknameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PublicName", DbType="NVarChar(32) NOT NULL", CanBeNull=false)]
-		public string PublicName
-		{
-			get
-			{
-				return this._PublicName;
-			}
-			set
-			{
-				if ((this._PublicName != value))
-				{
-					this.OnPublicNameChanging(value);
-					this.SendPropertyChanging();
-					this._PublicName = value;
-					this.SendPropertyChanged("PublicName");
-					this.OnPublicNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Website", DbType="NVarChar(256)")]
-		public string Website
-		{
-			get
-			{
-				return this._Website;
-			}
-			set
-			{
-				if ((this._Website != value))
-				{
-					this.OnWebsiteChanging(value);
-					this.SendPropertyChanging();
-					this._Website = value;
-					this.SendPropertyChanged("Website");
-					this.OnWebsiteChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Biography", DbType="NVarChar(MAX)")]
-		public string Biography
-		{
-			get
-			{
-				return this._Biography;
-			}
-			set
-			{
-				if ((this._Biography != value))
-				{
-					this.OnBiographyChanging(value);
-					this.SendPropertyChanging();
-					this._Biography = value;
-					this.SendPropertyChanged("Biography");
-					this.OnBiographyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProfilePicture", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ProfilePicture
-		{
-			get
-			{
-				return this._ProfilePicture;
-			}
-			set
-			{
-				if ((this._ProfilePicture != value))
-				{
-					if (this._Media.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnProfilePictureChanging(value);
-					this.SendPropertyChanging();
-					this._ProfilePicture = value;
-					this.SendPropertyChanged("ProfilePicture");
-					this.OnProfilePictureChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Password
-		{
-			get
-			{
-				return this._Password;
-			}
-			set
-			{
-				if ((this._Password != value))
-				{
-					this.OnPasswordChanging(value);
-					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Media", Storage="_Medias", ThisKey="Id", OtherKey="UploadedBy")]
-		public EntitySet<Media> Medias
-		{
-			get
-			{
-				return this._Medias;
-			}
-			set
-			{
-				this._Medias.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Page", Storage="_Pages", ThisKey="Id", OtherKey="Author")]
-		public EntitySet<Page> Pages
-		{
-			get
-			{
-				return this._Pages;
-			}
-			set
-			{
-				this._Pages.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Post", Storage="_Posts", ThisKey="Id", OtherKey="Author")]
-		public EntitySet<Post> Posts
-		{
-			get
-			{
-				return this._Posts;
-			}
-			set
-			{
-				this._Posts.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Media_User", Storage="_Media", ThisKey="ProfilePicture", OtherKey="Id", IsForeignKey=true)]
-		public Media Media
-		{
-			get
-			{
-				return this._Media.Entity;
-			}
-			set
-			{
-				Media previousValue = this._Media.Entity;
-				if (((previousValue != value) 
-							|| (this._Media.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Media.Entity = null;
-						previousValue.Users.Remove(this);
-					}
-					this._Media.Entity = value;
-					if ((value != null))
-					{
-						value.Users.Add(this);
-						this._ProfilePicture = value.Id;
-					}
-					else
-					{
-						this._ProfilePicture = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Media");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Medias(Media entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Medias(Media entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Pages(Page entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Pages(Page entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Posts(Post entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Posts(Post entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
 		}
 	}
 }
