@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Blog.Models.Admin.Post.PostIndexTable
+
+@{
     ViewBag.Title = "Posts";
 }
 
@@ -13,16 +15,30 @@
         <div class="col-md-10 col-md-offset-1">
             <table id="PostTable" class="display" cellspacing="0" width="100%">
                 <thead>
-                    <tr>
-                        <th></th>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Categories</th>
-                        <th>Tags</th>
-                        <th>Comments</th>
-                        <th>Timestamp</th>
-                    </tr>
+                <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Categories</th>
+                    <th>Tags</th>
+                    <th>Comments</th>
+                    <th>Timestamp</th>
+                </tr>
                 </thead>
+                <tbody>
+                @foreach (var row in Model.Rows)
+                {
+                    <tr>
+                        <td>@Html.Raw(row.Id)</td>
+                        <td>@Html.Raw(row.Title)</td>
+                        <td>@Html.Raw(row.Author)</td>
+                        <td>@Html.Raw(row.Categories)</td>
+                        <td>@Html.Raw(row.Tags)</td>
+                        <td>@Html.Raw(row.Comments)</td>
+                        <td>@Html.Raw(row.Timestamp)</td>
+                    </tr>
+                }
+                </tbody>
             </table>
         </div>
     </div>
@@ -31,7 +47,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var userTable = $('#PostTable').DataTable({
+       /* var userTable = $('#PostTable').DataTable({
             "processing": true,
             "serverSide": true,
             "order": [[6, "desc"]],
@@ -71,6 +87,6 @@
                 url: "./PostAdmin/DeletePostPost?id=" + id
             });
             $('#PostTable').DataTable().row($(this).parents('tr')).remove().draw();
-        });
+        }); */
     });
 </script>

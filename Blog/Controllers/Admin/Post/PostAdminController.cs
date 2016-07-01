@@ -10,9 +10,18 @@ namespace Blog.Controllers.Admin.Post
     public class PostAdminController : Controller
     {
         // GET: PostAdmin
-        public ActionResult Index()
+        public ActionResult Posts(int? id)
         {
-            return View();
+            PostIndexTable model = new PostIndexTable();
+            if (id.HasValue)
+            {
+                model = Models.Admin.Post.PostIndexTable.GetTable(id.Value);
+            }
+            else
+            {
+                model = Models.Admin.Post.PostIndexTable.GetTable(1);
+            }
+            return View(model);
         }
 
         public ActionResult Edit(string id)

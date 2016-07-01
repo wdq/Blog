@@ -1235,7 +1235,7 @@
     <Content Include="Views\UserAdmin\Edit.cshtml" />
     <Content Include="Views\UserAdmin\Index.cshtml" />
     <Content Include="Views\PostAdmin\Edit.cshtml" />
-    <Content Include="Views\PostAdmin\Index.cshtml" />
+    <Content Include="Views\PostAdmin\Posts.cshtml" />
     <Content Include="Scripts\moment-2.13.0\.editorconfig" />
     <Content Include="Scripts\moment-2.13.0\.jscs.json" />
     <Content Include="Scripts\moment-2.13.0\.jshintrc" />

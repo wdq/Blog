@@ -7,6 +7,90 @@ using System.Web;
 
 namespace Blog.Models.Admin.Post
 {
+    public class PostIndexTableRow
+    {
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public string Categories { get; set; }
+        public string Tags { get; set; }
+        public string Comments { get; set; }
+        public string Timestamp { get; set; }
+
+        public static PostIndexTableRow PostToRow(Blog.Post post, BlogDataDataContext database)
+        {
+            PostIndexTableRow row = new PostIndexTableRow();
+
+            var commandButtonLeftHtml = "";
+            commandButtonLeftHtml += "<a href='Post/ViewId?id=" + post.Id + "' class='btn btn-default hl-view' style='margin-right: 3px;'><i class='fa fa-search'></i></span></a>";
+            commandButtonLeftHtml += "<a href='PostAdmin/Edit?id=" + post.Id + "' class='btn btn-default hl-view' style='margin-right: 3px;'><i class='fa fa-pencil'></i></span></a>";
+            commandButtonLeftHtml += "<div class='btn btn-default hl-view deletePostButton' postId='" + post.Id + "'><i class='fa fa-trash'></i></div>";
+
+            row.Id = commandButtonLeftHtml;
+            row.Title = post.Title;
+            row.Timestamp = post.Timestamp.ToString();
+
+            
+            var databaseAuthor = database.Users.FirstOrDefault(x => x.Id == post.Author);
+            if (databaseAuthor != null)
+            {
+                row.Author = databaseAuthor.PublicName;
+            }
+
+            string tagsTemp = "";
+            var databaseTagMaps = database.PostTagMaps.Where(x => x.PostId == post.Id);
+            foreach (var tagMap in databaseTagMaps)
+            {
+                var databaseTag = database.PostTags.FirstOrDefault(x => x.Id == tagMap.TagId);
+                tagsTemp += "<a href='" + "#" + "'>" + databaseTag.Name + "</a>, ";
+            }
+            row.Tags = tagsTemp; 
+                      
+            string categoriesTemp = "";
+            var databaseCategoryMaps = database.PostCategoryMaps.Where(x => x.PostId == post.Id);
+            foreach (var categoryMap in databaseCategoryMaps)
+            {
+                var databaseCategory = database.PostCategories.FirstOrDefault(x => x.Id == categoryMap.CategoryId);
+                categoriesTemp += "<a href='" + "#" + "'>" + databaseCategory.Name + "</a>, ";
+            }
+            row.Categories = categoriesTemp;
+
+            row.Comments = database.PostCommentMaps.Count(x => x.PostId == post.Id).ToString();          
+ 
+            return row;
+        }
+    }
+
+
+    // Page 1 is the most recent ten posts
+    public class PostIndexTable
+    {
+        public List<PostIndexTableRow> Rows { get; set; }
+
+        public static PostIndexTable GetTable(int page)
+        {
+            PostIndexTable table = new PostIndexTable();
+            List<PostIndexTableRow> rows = new List<PostIndexTableRow>();
+
+            using (BlogDataDataContext database = new BlogDataDataContext())
+            {
+                
+                var posts = database.Posts.ToList().OrderByDescending(x => x.Timestamp).Skip((page - 1) * 10).Take(10);
+                foreach (var post in posts)
+                {
+                    rows.Add(PostIndexTableRow.PostToRow(post, database));
+                }
+            }
+            table.Rows = rows;
+
+            return table;
+        }
+    }
+
+
+
+
+
     public class PostIndexTableResultModel
     {
         public int Draw { get; set; }
