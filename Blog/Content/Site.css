@@ -60,3 +60,154 @@ table.dataTable thead th, table.dataTable thead td, table.dataTable.no-footer
     display: block;
     width: 100%;
 }
+
+
+div.center-cropped-home {
+  width: 150px;
+  height: 150px;
+  overflow:hidden;
+}
+div.center-cropped-home img {
+  height: 100%;
+  min-width: 100%;
+  left: 50%;
+  position: relative;
+  transform: translateX(-50%);
+}
+
+
+.header-image #title-area {
+    margin-top: 3px;
+    background: url(https://theprime.co/wp-content/themes/mindstream/images/logo.png);
+}
+
+body {
+     background-image: url('https://theprime.co/wp-content/uploads/2012/06/bg-light.png');
+     background-repeat: repeat;
+     background-position: top left;
+     background-attachment: fixed;
+}
+
+.homePostsList {
+    background-color: #ffffff;
+    box-shadow: 0 0 3px #bbbbbb;
+    padding-top: 25px;
+    padding-right: 40px;
+    padding-bottom: 25px;
+    padding-left: 40px;
+}
+
+
+
+#header {
+	background: url(https://theprime.co/wp-content/themes/mindstream/images/gradient.png) top repeat-x;
+	margin: 0 auto;
+	min-height: 70px;
+/*        overflow: hidden; */
+	text-transform: uppercase;
+	width: 100%;
+}
+
+
+
+#title-area {
+	float: left;
+	overflow: hidden;
+	padding: 30px 0 0;
+	width: 300px;
+}
+
+#title {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+	line-height: 1.25;
+	margin: 0;
+	text-transform: uppercase;
+}
+
+#title a,
+#title a:hover {
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 0 1px 1px #000;
+}
+
+#description {
+	display: none;
+}
+
+#header .widget-area {
+	float: right;
+	padding: 25px 0 0 0;
+	width: 650px;
+}
+
+
+
+.header-image #title-area,
+.header-image #title,
+.header-image #title a {
+	display: block;
+	float: left;
+	min-height: 85px;
+	overflow: hidden;
+	padding: 0;
+	text-indent: -9999px;
+	width: 300px;
+}
+
+.header-image #description {
+	display: block;
+	overflow: hidden;
+}
+
+
+.header-full-width #title-area,
+.header-full-width #title,
+.header-full-width #title a {
+	width: 100%;
+}
+
+
+
+
+#footer {
+	background: url(https://theprime.co/wp-content/themes/mindstream/images/gradient.png);
+	clear: both;
+	color: #999;
+	font-size: 13px;
+	margin: 0 auto;
+	overflow: hidden;
+	width: 100%;
+}
+
+#footer .wrap {
+	overflow: hidden;
+	padding: 32px 0;
+}
+
+#footer p {
+	color: inherit;
+	font-size: inherit;
+}
+
+#footer a,
+#footer a:visited {
+	color: #999;
+}
+
+#footer a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+#footer .gototop {
+	float: left;
+	width: 300px;
+}
+
+#footer .creds {
+	float: right;
+	text-align: right;
+	width: 650px;
+}

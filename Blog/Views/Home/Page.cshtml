@@ -1,0 +1,39 @@
+﻿@model Blog.Models.Post.PostHomeTable
+    
+@{
+    ViewBag.Title = "The Prime";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-md-7 col-md-offset-1 homePostsList">
+            @foreach (var row in Model.Rows)
+            {
+                <div class="row">
+                    <h1>@Html.Raw(row.Title)</h1>
+                </div>
+                <div class="row">
+                    <h5>@Html.Raw(row.Timestamp) By @Html.Raw(row.Author)</h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.Raw(row.FeaturedImage)
+                    </div>
+                    <div class="col-md-9">
+                        <p>@Html.Raw(row.Body)</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <h6>Filed Under: @Html.Raw(row.Categories) Tagged With: @Html.Raw(row.Tags)</h6>
+                </div>
+                <br />
+                <hr/>
+                <br/>
+            }
+            @Html.Raw(Model.Pagination)
+            <br/>
+            <br/>
+            <br/>
+        </div>
+    </div>
+</div>

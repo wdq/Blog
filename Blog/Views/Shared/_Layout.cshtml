@@ -11,26 +11,60 @@
     @Scripts.Render("~/Scripts/bootstrap-datetimepicker-4.17.37/build/js/bootstrap-datetimepicker.min.js")
     @RenderSection("scripts", required: false)
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+<body class="home blog admin-bar no-customize-support custom-background wpb-js-composer js-comp-ver-3.0.4 header-image content-sidebar">
+    <style type="text/css">
+        .header-image #title-area {
+            margin-top: 3px;
+            background: url(https://theprime.co/wp-content/themes/mindstream/images/logo.png);
+        }
+    </style>
+    <div id="header">
+        <div class="wrap">
+            <div id="title-area">
+                <h1 id="title"><a href="https://theprime.co/">The Prime</a></h1>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
+            <div class="widget-area header-widget-area">
+                <div id="megaMenu" class="megaMenuContainer megaMenu-nojs megaResponsive megaFullWidth megaMenuHorizontal megaMenuOnHover wpmega-withjs wpmega-noconflict">
+                    <ul id="megaUber" class="megaMenu">
+                        <li id="menu-item-16971" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children ss-nav-menu-item-0 ss-nav-menu-item-depth-0 ss-nav-menu-reg">
+                            <a href="https://theprime.co/about/"><span class="wpmega-link-title">About</span></a>
+                        </li>
+                        <li id="menu-item-16977" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children ss-nav-menu-item-1 ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-alignCenter">
+                            <a href="https://theprime.co/topic/reviews/"><span class="wpmega-link-title">Reviews</span></a>
+                        </li>
+                        <li id="menu-item-16978" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children ss-nav-menu-item-2 ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-alignCenter">
+                            <a href="https://theprime.co/topic/editorials/"><span class="wpmega-link-title">Editorials</span></a>
+                        </li>
+                        <li id="menu-item-16979" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children ss-nav-menu-item-3 ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-alignCenter">
+                            <a href="https://theprime.co/topic/news/"><span class="wpmega-link-title">News</span></a>
+                        </li>
+                        <li id="menu-item-16980" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children ss-nav-menu-item-4 ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-alignCenter">
+                            <a href="https://theprime.co/topic/videos/"><span class="wpmega-link-title">Videos</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="text-2" class="widget widget_text">
+                    <div class="widget-wrap">
+                        <div class="textwidget"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-        @RenderBody()
+
+@RenderBody()
+
+
+    <div id="footer" class="footer">
+        <div class="wrap">
+            <div class="gototop">
+                <p><a href="#wrap" rel="nofollow">Return to top of page</a></p>
+            </div>
+            <div class="creds">
+                <p>Copyright &#x000A9;&nbsp;2016 <a href="http://zlstudios.net">ZL Studios</a> - <a href="https://theprime.co/about">About</a> - <a href="https://theprime.co/archives/">Archives</a> - <a href="https://privacy.truste.com/reseller/privacy-policy/ZL-Studios/109849ec-21c0-4230-8b3a-d1059d79c457">Privacy Policy</a> - <a href="https://theprime.co/jobs">Jobs</a></p>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
