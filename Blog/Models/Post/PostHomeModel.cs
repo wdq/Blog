@@ -7,6 +7,34 @@ using System.Web;
 
 namespace Blog.Models.Post
 {
+
+    public class PostHomeFeaturedPost
+    {
+        public string Title { get; set; }
+        public string FeaturedImageUrl { get; set; }
+        public string Url { get; set; }
+
+        public static PostHomeFeaturedPost PostToFeaturedPost(Blog.Post post, BlogDataDataContext database)
+        {
+            PostHomeFeaturedPost featuredPost = new PostHomeFeaturedPost();
+
+            string rootUrl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/') + "/";
+            string postUrl = rootUrl + post.Slug;
+
+            featuredPost.Title = post.Title;
+            featuredPost.Url = postUrl;
+
+            string imageUrl = Regex.Match(post.Body, "<img.+?src=[\"'](.+?)[\"'].*?>", RegexOptions.IgnoreCase).Groups[1].Value;
+
+            if (!String.IsNullOrEmpty(imageUrl) && !String.IsNullOrWhiteSpace(imageUrl))
+            {
+                featuredPost.FeaturedImageUrl = imageUrl;
+            }
+
+            return featuredPost;
+        }
+    }
+
     public class PostHomeTableRow
     {
         public string Id { get; set; }
@@ -23,11 +51,12 @@ namespace Blog.Models.Post
         {
             var step1 = Regex.Replace(value, @"<[^>]+>|&nbsp;", "").Trim();
             var step2 = Regex.Replace(step1, @"\s{2,}", " ");
+
             return step2;
         }
 
         public static PostHomeTableRow PostToRow(Blog.Post post, BlogDataDataContext database)
-        {
+        { 
             PostHomeTableRow row = new PostHomeTableRow();
 
             string rootUrl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.ApplicationPath.TrimEnd('/') + "/";
@@ -92,17 +121,25 @@ namespace Blog.Models.Post
 
     public class PostHomeTable
     {
+        public List<PostHomeFeaturedPost> FeaturedPosts { get; set; }
         public List<PostHomeTableRow> Rows { get; set; }
         public string Pagination { get; set; }
 
         public static PostHomeTable GetTable(int page)
         {
             PostHomeTable table = new PostHomeTable();
+            List<PostHomeFeaturedPost> featuredPosts = new List<PostHomeFeaturedPost>();
             List<PostHomeTableRow> rows = new List<PostHomeTableRow>();
 
             using (BlogDataDataContext database = new BlogDataDataContext())
             {
                 var allPosts = database.Posts.Where(x => x.Status == "publish" && x.Visibility == "Public").ToList().OrderByDescending(x => x.Timestamp);
+                var firstThreePosts = allPosts.Take(3);
+                foreach (var featuredPost in firstThreePosts)
+                {
+                    featuredPosts.Add(PostHomeFeaturedPost.PostToFeaturedPost(featuredPost, database));
+                }
+
                 var posts = allPosts.Skip((page - 1)*10).Take(10);
                 foreach (var post in posts)
                 {
@@ -161,6 +198,7 @@ namespace Blog.Models.Post
 
                 pagination += "</ul>";
                 table.Pagination = pagination;
+                table.FeaturedPosts = featuredPosts;
             }
 
 

@@ -98,6 +98,50 @@ body {
 }
 
 
+.homeFeaturedPost {
+  width: 300px;
+  height: 132px;
+  overflow:hidden;
+    margin-right: 0px;
+    margin-bottom: 10px;
+}
+.homeFeaturedPost img {
+  height: 100%;
+  min-width: 100%;
+  left: 50%;
+  position: relative;
+  transform: translateX(-50%);
+    background: #ffffff;
+    border-top: solid 1px #525252;
+    border-bottom: solid 1px #000000;
+    border-right: solid 1px #000000;
+    border-left: solid 1px #525252;
+}
+
+.featured-posts-div {
+    margin: 0 auto;
+    width: 960px;
+}
+
+.homeFeaturedPost p {
+   position: absolute; 
+   bottom: -10px; 
+   left: 15px; 
+   width: 285px;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.homeFeaturedPost p span {
+   color: white; 
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(0, 0, 0, 0.7);
+    font-size: 12px;
+    line-height: 12px;
+   
+}
+
+
 
 #header {
 	background: url(https://theprime.co/wp-content/themes/mindstream/images/gradient.png) top repeat-x;
@@ -211,3 +255,4 @@ body {
 	text-align: right;
 	width: 650px;
 }
+
