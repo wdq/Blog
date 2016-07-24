@@ -7,10 +7,15 @@
 body {
     background-image: url("https://theprime.co/wp-content/uploads/2012/06/bg-light.png");
     background-repeat: repeat;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    font-size: 15px;
+    color: #222222;
 }
 
 .navbar-inverse .navbar-nav > li > a {
     color: #ffffff;
+    font-family: 'Lato', sans-serif;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover {
@@ -116,6 +121,9 @@ div.center-cropped-home img {
   padding: 40px 0;
   color: #999;
   text-align: center;
+  font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    font-size: 15px;
 }
 .blog-footer p:last-child {
   margin-bottom: 0;

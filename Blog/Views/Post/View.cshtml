@@ -4,16 +4,39 @@
     ViewBag.Title = Model.Title;
 }
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="col-md-10 col-md-offset-1">
-            <h2>@Model.Title</h2>
-            <br />
+<div class="container">
+    <div class="col-sm-8">
+        <div class="blog-post">
+            <div class="row">
+                <h2>@Model.Title</h2>
+            </div>
+            <div class="row">
+                @Model.Timestamp by @Model.Author.Value
+            </div>
+            <div class="row">
+                @Html.Raw(Model.Body)
+            </div>
+            <div class="row">
+                Filed Under: @string.Join(", ", Model.Categories.Values) Tagged With: @string.Join(", ", Model.Tags.Values)
+            </div>
+            <div class="row">
+                Author bio todo
+            </div>
         </div>
+        <footer class="blog-footer">
+            <p>
+                Copyright &copy; @DateTime.Now.Year ZL Studios
+            </p>
+            <p>
+                <a href="#">About</a> - <a href="#">Archives</a> - <a href="">Privacy Policy</a>
+            </p>
+            <p>
+                <a href="#">Back to top</a>
+            </p>
+        </footer>
     </div>
-    <div class="row-fluid">
-        <div class="col-md-10 col-md-offset-1">
-            @Html.Raw(Model.Body)
-        </div>
+    <div class="col-sm-3 col-sm-offset-1">
     </div>
 </div>
+
+
