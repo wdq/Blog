@@ -1,12 +1,50 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Set padding to keep content from hitting the edges */
+﻿/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+}
+
+body {
+    background-image: url("https://theprime.co/wp-content/uploads/2012/06/bg-light.png");
+    background-repeat: repeat;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #ffffff;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #028AD4;
+    text-decoration: none;
+}
+
+.blog-home-main {
+    margin-top: -50px;
+    padding-top: 50px;
+    background-color: #ffffff;
+    box-shadow: 0 0 3px #bbbbbb;
+    padding-right: 40px;
+    padding-bottom: 25px;
+    padding-left: 40px;
+}
+
+.blog-home-main h1 a {
+    color: #222;
+}
+
+.blog-home-main h1 a:hover {
+    color: #028AD4;
+    text-decoration: none;
+}
+
+.navbar-brand {
+  padding: 0px;
+}
+.navbar-brand>img {
+  height: 70px;
+  margin-top: -10px;
+  margin-bottom: -10px;
+  width: auto;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -61,7 +99,6 @@ table.dataTable thead th, table.dataTable thead td, table.dataTable.no-footer
     width: 100%;
 }
 
-
 div.center-cropped-home {
   width: 150px;
   height: 150px;
@@ -75,184 +112,11 @@ div.center-cropped-home img {
   transform: translateX(-50%);
 }
 
-
-.header-image #title-area {
-    margin-top: 3px;
-    background: url(https://theprime.co/wp-content/themes/mindstream/images/logo.png);
+.blog-footer {
+  padding: 40px 0;
+  color: #999;
+  text-align: center;
 }
-
-body {
-     background-image: url('https://theprime.co/wp-content/uploads/2012/06/bg-light.png');
-     background-repeat: repeat;
-     background-position: top left;
-     background-attachment: fixed;
+.blog-footer p:last-child {
+  margin-bottom: 0;
 }
-
-.homePostsList {
-    background-color: #ffffff;
-    box-shadow: 0 0 3px #bbbbbb;
-    padding-top: 25px;
-    padding-right: 40px;
-    padding-bottom: 25px;
-    padding-left: 40px;
-}
-
-
-.homeFeaturedPost {
-  width: 300px;
-  height: 132px;
-  overflow:hidden;
-    margin-right: 0px;
-    margin-bottom: 10px;
-}
-.homeFeaturedPost img {
-  height: 100%;
-  min-width: 100%;
-  left: 50%;
-  position: relative;
-  transform: translateX(-50%);
-    background: #ffffff;
-    border-top: solid 1px #525252;
-    border-bottom: solid 1px #000000;
-    border-right: solid 1px #000000;
-    border-left: solid 1px #525252;
-}
-
-.featured-posts-div {
-    margin: 0 auto;
-    width: 960px;
-}
-
-.homeFeaturedPost p {
-   position: absolute; 
-   bottom: -10px; 
-   left: 15px; 
-   width: 285px;
-    font-size: 12px;
-    line-height: 12px;
-}
-
-.homeFeaturedPost p span {
-   color: white; 
-   background: rgb(0, 0, 0); /* fallback color */
-   background: rgba(0, 0, 0, 0.7);
-    font-size: 12px;
-    line-height: 12px;
-   
-}
-
-
-
-#header {
-	background: url(https://theprime.co/wp-content/themes/mindstream/images/gradient.png) top repeat-x;
-	margin: 0 auto;
-	min-height: 70px;
-/*        overflow: hidden; */
-	text-transform: uppercase;
-	width: 100%;
-}
-
-
-
-#title-area {
-	float: left;
-	overflow: hidden;
-	padding: 30px 0 0;
-	width: 300px;
-}
-
-#title {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 20px;
-	line-height: 1.25;
-	margin: 0;
-	text-transform: uppercase;
-}
-
-#title a,
-#title a:hover {
-	color: #fff;
-	text-decoration: none;
-	text-shadow: 0 1px 1px #000;
-}
-
-#description {
-	display: none;
-}
-
-#header .widget-area {
-	float: right;
-	padding: 25px 0 0 0;
-	width: 650px;
-}
-
-
-
-.header-image #title-area,
-.header-image #title,
-.header-image #title a {
-	display: block;
-	float: left;
-	min-height: 85px;
-	overflow: hidden;
-	padding: 0;
-	text-indent: -9999px;
-	width: 300px;
-}
-
-.header-image #description {
-	display: block;
-	overflow: hidden;
-}
-
-
-.header-full-width #title-area,
-.header-full-width #title,
-.header-full-width #title a {
-	width: 100%;
-}
-
-
-
-
-#footer {
-	background: url(https://theprime.co/wp-content/themes/mindstream/images/gradient.png);
-	clear: both;
-	color: #999;
-	font-size: 13px;
-	margin: 0 auto;
-	overflow: hidden;
-	width: 100%;
-}
-
-#footer .wrap {
-	overflow: hidden;
-	padding: 32px 0;
-}
-
-#footer p {
-	color: inherit;
-	font-size: inherit;
-}
-
-#footer a,
-#footer a:visited {
-	color: #999;
-}
-
-#footer a:hover {
-	color: #fff;
-	text-decoration: none;
-}
-
-#footer .gototop {
-	float: left;
-	width: 300px;
-}
-
-#footer .creds {
-	float: right;
-	text-align: right;
-	width: 650px;
-}
-

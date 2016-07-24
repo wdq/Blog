@@ -4,24 +4,11 @@
     ViewBag.Title = "The Prime";
 }
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="col-md-7 col-md-offset-1">
-            <div class="featured-posts-div">
-                @foreach (var featuredPost in Model.FeaturedPosts)
-                {
-                    <div class="col-md-3 homeFeaturedPost">
-                        <a href="@featuredPost.Url"><img src="@featuredPost.FeaturedImageUrl"/></a>
-                        <p><span>@featuredPost.Title</span></p>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="col-md-7 col-md-offset-1 homePostsList">
-            @foreach (var row in Model.Rows)
-            {
+<div class="container">
+    <div class="col-sm-8 blog-home-main">
+        @foreach (var row in Model.Rows)
+        {
+            <div class="blog-post">
                 <div class="row">
                     <h1>@Html.Raw(row.Title)</h1>
                 </div>
@@ -42,11 +29,21 @@
                 <br/>
                 <hr/>
                 <br/>
-            }
-            @Html.Raw(Model.Pagination)
-            <br/>
-            <br/>
-            <br/>
-        </div>
+            </div>
+        }
+        @Html.Raw(Model.Pagination)
+        <footer class="blog-footer">
+            <p>
+                Copyright &copy; @DateTime.Now.Year ZL Studios
+            </p>
+            <p>
+                <a href="#">About</a> - <a href="#">Archives</a> - <a href="">Privacy Policy</a>
+            </p>
+            <p>
+                <a href="#">Back to top</a>
+            </p>
+        </footer>
+    </div>
+    <div class="col-sm-3 col-sm-offset-1">
     </div>
 </div>
